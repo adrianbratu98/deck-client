@@ -22,6 +22,10 @@ class _LobbiesState extends State<Lobbies> {
           lobbiesRecived = true;
         });
     });
+    BaseService.lobbies.addListener(() {
+      setState(() {});
+    });
+ 
   }
 
   @override
@@ -34,7 +38,7 @@ class _LobbiesState extends State<Lobbies> {
              child: !lobbiesRecived ?
               Loading("Getting lobbies") :
               ListView(
-                children: BaseService.lobbies.values.map((lobby) =>
+                children: BaseService.lobbies.value.values.map((lobby) =>
                   GestureDetector(
                     onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Lobbies())),
                     child: Card(

@@ -9,12 +9,13 @@ class BaseService {
 
   static Player player = new Player();
 
-  static Map<String, Lobby> lobbies;
+  static ValueNotifier<Map<String, Lobby>> lobbies = new ValueNotifier<Map<String, Lobby>>(null);
 
   static Lobby currentLobby;
 
   static void initializeApp() {
     SignalrService.startConnection();
+    SignalrService.setHandler("ALobbyWasCreated", (json) => Lobby.fromJson(json), BaseService.aLobbyWasCreated);
   }
 
   static onConnected() => isConnected.value = true;
@@ -24,11 +25,18 @@ class BaseService {
   static Future getLobbies() async => 
     SignalrService.invoke("GetLobbies")
       .then((rawData) {
-        lobbies = (rawData).map<String, Lobby>(
+        lobbies.value = (rawData).map<String, Lobby>(
           (key, value) => MapEntry(key.toString(), Lobby.fromJson(value))
         );
       });
   
   static joinLobby(Lobby lobby) async => await SignalrService.invoke("JoinLobby")
     .then((result) => currentLobby = lobby);
+  
+  static aLobbyWasCreated(Lobby lobby) {
+    Map<String, Lobby> lobbiesWithAnotherOne = Map.from(lobbies.value);
+    lobbiesWithAnotherOne[lobby.id] = lobby;
+    lobbies.value = lobbiesWithAnotherOne;
+  }
 }
+ 
