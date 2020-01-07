@@ -15,15 +15,18 @@ class BaseService {
   static Lobby currentLobby;
 
   static void initializeApp() {
-    SignalrService.startConnection();
-    SignalrService.setHandler("ALobbyWasCreated", BaseService.aLobbyWasCreated);
-    SignalrService.setHandler("ALobbyWasClosed", BaseService.aLobbyWasClosed);
-    SignalrService.setHandler("APlayerJoinedALobby", BaseService.aPlayerJoinedALobby);
-    SignalrService.setHandler("APlayerLeftALobby", BaseService.aPlayerLeftALobby);
-    SignalrService.setHandler("ResetLobbies", BaseService.resetLobbies);
+    SignalrService.startConnection().then((_) {
+      SignalrService.setHandler("ALobbyWasCreated", BaseService.aLobbyWasCreated);
+      SignalrService.setHandler("ALobbyWasClosed", BaseService.aLobbyWasClosed);
+      SignalrService.setHandler("APlayerJoinedALobby", BaseService.aPlayerJoinedALobby);
+      SignalrService.setHandler("APlayerLeftALobby", BaseService.aPlayerLeftALobby);
+      SignalrService.setHandler("ResetLobbies", BaseService.resetLobbies);
+    });
   }
 
-  static onConnected() => isConnected.value = true;
+  static onConnected(void _) {
+    return isConnected.value = true;
+  }
 
   static getUniqueId() async => player.id = await SignalrService.invoke("GetUniqueId");
 

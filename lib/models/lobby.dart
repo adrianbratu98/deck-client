@@ -33,7 +33,7 @@ class Lobby {
               color: Colors.black12
             ),
             child: Image(
-              image: AssetImage("assets/images/${icon.toString().substring(icon.toString().lastIndexOf('.') + 1)}.png"),
+              image: AssetImage("images/${icon.toString().substring(icon.toString().lastIndexOf('.') + 1)}.png"),
               width: 45,
               height: 45,
             ),

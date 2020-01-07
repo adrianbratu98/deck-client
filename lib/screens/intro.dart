@@ -8,7 +8,7 @@ class Intro extends StatefulWidget {
 
 class _IntroState extends State<Intro> {
   @override
-  void initState() { 
+  void initState() {
     super.initState();
     Timer(Duration(milliseconds: 1500), (){
       Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));

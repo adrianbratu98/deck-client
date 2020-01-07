@@ -31,7 +31,7 @@ class Player {
               color: Colors.black12
             ),
             child: Image(
-              image: AssetImage("assets/images/${icon.toString().substring(icon.toString().lastIndexOf('.') + 1)}.png"),
+              image: AssetImage("images/${icon.toString().substring(icon.toString().lastIndexOf('.') + 1)}.png"),
               width: 30,
               height: 30,
             ),
