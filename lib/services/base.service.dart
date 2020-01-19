@@ -24,15 +24,25 @@ class BaseService {
     });
   }
 
-  static onConnected(void _) {
-    return isConnected.value = true;
-  }
+  static onConnected() =>
+    isConnected.value = true;
+
+  static onDisconnected() =>
+    isConnected.value = false;
+
+  static onReconnected() => player.id != null
+    ? SignalrService.invoke("TryReconnect", args: [player.id])
+        .then((_) =>
+          isConnected.value = true)
+    : onAborted();
+
+  static onAborted() =>
+    isConnected.value = false;
 
   static getUniqueId() async => player.id = await SignalrService.invoke("GetUniqueId");
 
-  static Future getLobbies() async => 
-    SignalrService.invoke("GetLobbies")
-      .then(BaseService.resetLobbies);
+  static Future getLobbies() async => SignalrService.invoke("GetLobbies")
+    .then(BaseService.resetLobbies);
   
   static joinLobby(Lobby lobby) async => await SignalrService.invoke("JoinLobby")
     .then((result) => currentLobby = lobby);
