@@ -19,6 +19,7 @@ class BaseService {
       SignalrService.setHandler("ALobbyWasCreated", BaseService.aLobbyWasCreated);
       SignalrService.setHandler("ALobbyWasClosed", BaseService.aLobbyWasClosed);
       SignalrService.setHandler("APlayerJoinedALobby", BaseService.aPlayerJoinedALobby);
+      SignalrService.setHandler("ALobbyHasANewLeader", BaseService.aLobbyHasANewLeader);
       SignalrService.setHandler("APlayerLeftALobby", BaseService.aPlayerLeftALobby);
       SignalrService.setHandler("ResetLobbies", BaseService.resetLobbies);
     });
@@ -62,6 +63,13 @@ class BaseService {
     Player player = Player.fromJson(actionJson['player']);
     Lobby lobby = lobbies.value[actionJson['lobbyId'] as String];
     lobby.participants[actionJson['playerId']] = player;
+    lobbies.notifyListeners();
+  }
+
+  static aLobbyHasANewLeader(dynamic actionJson) {
+    Lobby lobby = lobbies.value[actionJson['lobbyId'] as String];
+    lobby.participants.remove(lobby.leaderId);
+    lobby.leaderId = actionJson['leaderId'] as String;
     lobbies.notifyListeners();
   }
 
