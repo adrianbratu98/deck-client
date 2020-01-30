@@ -1,3 +1,4 @@
+import 'package:deck/widgets/identitiy.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -22,27 +23,11 @@ class Player {
 
   Widget toLobbyPlayer(){
     return Padding(
-      padding: const EdgeInsets.fromLTRB(48, 8, 8, 8),
-      child: Row(
-        children: <Widget>[
-          DecoratedBox(
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.black12
-            ),
-            child: Image(
-              image: AssetImage("images/${icon.toString().substring(icon.toString().lastIndexOf('.') + 1)}.png"),
-              width: 30,
-              height: 30,
-            ),
-          ),
-          Text(
-            name.toUpperCase(),
-            style: TextStyle(
-              fontSize: 14,
-            ),
-          )
-        ]
+      padding: const EdgeInsets.only(left: 40),
+      child: Identity(
+        name, 
+        "images/${icon.toString().substring(icon.toString().lastIndexOf('.') + 1)}.png",
+        30
       ),
     );
   }

@@ -1,5 +1,6 @@
-import 'package:deck/components/loading.dart';
 import 'package:deck/services/base.service.dart';
+import 'package:deck/widgets/identitiy.dart';
+import 'package:deck/widgets/loading.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -40,12 +41,15 @@ class _LobbiesState extends State<Lobbies> {
               ListView(
                 children: BaseService.lobbies.value.values.map((lobby) =>
                   GestureDetector(
-                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Lobbies())),
+                    onTap: () => print(lobby.id),
                     child: Card(
                       child: Column(
                         children: <Widget>[
-                          lobby.toLobbyListItem(),
-                          ...lobby.participants.values.map((participant) => participant.toLobbyPlayer())
+                          Identity(lobby.name, lobby.icon.toString(), 45),
+                          ...lobby.participants.values.map((player) => Padding(
+                            padding: const EdgeInsets.only(left: 40),
+                            child: Identity(player.name, player.icon.toString(), 30),
+                          ))
                         ]
                       )
                     ),

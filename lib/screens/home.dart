@@ -1,5 +1,5 @@
-import 'package:deck/components/loading.dart';
 import 'package:deck/services/base.service.dart';
+import 'package:deck/widgets/loading.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
