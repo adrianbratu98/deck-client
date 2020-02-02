@@ -15,9 +15,9 @@ class Lobby {
   int iconCode;
   LobbyIcon get icon => LobbyIcon.values[iconCode];
   String leaderId;
-  Map<String, Player> participants;
+  Map<String, Player> players;
   
-  Player get leader => participants[leaderId];
+  Player get leader => players[leaderId];
 
   factory Lobby.fromJson(Map<String, dynamic> json) => _$LobbyFromJson(json);
 

@@ -9,7 +9,7 @@ class SignalrService {
   static HubConnection _hubConnection;
 
   static Future<String> get _serverUrl async {
-    String serverUrl = "http://c6bb2665.eu.ngrok.io/deck";
+    String serverUrl = "http://30c40889.eu.ngrok.io/deck";
     // final directory = await getApplicationDocumentsDirectory();
     // final filePath = '${directory.path}/deck.txt';
     // if (File(filePath).existsSync())
@@ -51,7 +51,7 @@ class SignalrService {
       });
   }
 
-  static Future invoke(String methodName, {List<Object> args}) async =>
+  static Future invoke(String methodName, { List<Object> args }) async =>
     _hubConnection.invoke(methodName, args: args);
 
   static setHandler(String methodName, void Function(dynamic) callback) =>

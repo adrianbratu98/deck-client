@@ -12,7 +12,7 @@ class BaseService {
 
   static PublicNotifier<Map<String, Lobby>> lobbies = new PublicNotifier<Map<String, Lobby>>(new Map<String, Lobby>());
 
-  static Lobby currentLobby;
+  static ValueNotifier<Lobby> currentLobby = new ValueNotifier(null);
 
   static void initializeApp() {
     SignalrService.startConnection().then((_) {
@@ -45,8 +45,9 @@ class BaseService {
   static Future getLobbies() async => SignalrService.invoke("GetLobbies")
     .then(BaseService.resetLobbies);
   
-  static joinLobby(Lobby lobby) async => await SignalrService.invoke("JoinLobby")
-    .then((result) => currentLobby = lobby);
+  static joinLobby(Lobby lobby) async => await SignalrService.invoke("JoinLobby", args: [lobby.id, player])
+    .then((result) =>
+     currentLobby.value = lobby);
   
   static aLobbyWasCreated(dynamic lobbyJson) {
     Lobby lobby = Lobby.fromJson(lobbyJson);
@@ -62,13 +63,13 @@ class BaseService {
   static aPlayerJoinedALobby(dynamic actionJson) {
     Player player = Player.fromJson(actionJson['player']);
     Lobby lobby = lobbies.value[actionJson['lobbyId'] as String];
-    lobby.participants[actionJson['playerId']] = player;
+    lobby.players[actionJson['playerId']] = player;
     lobbies.notifyListeners();
   }
 
   static aLobbyHasANewLeader(dynamic actionJson) {
     Lobby lobby = lobbies.value[actionJson['lobbyId'] as String];
-    lobby.participants.remove(lobby.leaderId);
+    lobby.players.remove(lobby.leaderId);
     lobby.leaderId = actionJson['leaderId'] as String;
     lobbies.notifyListeners();
   }
@@ -76,7 +77,7 @@ class BaseService {
   static aPlayerLeftALobby(dynamic actionJson) {
     String playerId = actionJson['playerId'] as String;
     Lobby lobby = lobbies.value[actionJson['lobbyId'] as String];
-    lobby.participants.remove(playerId);
+    lobby.players.remove(playerId);
     lobbies.notifyListeners();
   }
 

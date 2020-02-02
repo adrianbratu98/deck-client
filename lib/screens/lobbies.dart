@@ -1,16 +1,18 @@
+import 'package:deck/models/lobby.dart';
+import 'package:deck/screens/lobby.dart';
 import 'package:deck/services/base.service.dart';
 import 'package:deck/widgets/identitiy.dart';
 import 'package:deck/widgets/loading.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class Lobbies extends StatefulWidget {
-  Lobbies({Key key}) : super(key: key);
+class LobbiesScreen extends StatefulWidget {
+  LobbiesScreen({Key key}) : super(key: key);
 
   _LobbiesState createState() => _LobbiesState();
 }
 
-class _LobbiesState extends State<Lobbies> {
+class _LobbiesState extends State<LobbiesScreen> {
 
   bool lobbiesRecived = false;
 
@@ -26,7 +28,11 @@ class _LobbiesState extends State<Lobbies> {
     BaseService.lobbies.addListener(() {
       setState(() {});
     });
- 
+  }
+
+  joinLobby(Lobby lobby) {
+    BaseService.joinLobby(lobby);
+    Navigator.push(context, MaterialPageRoute(builder: (context) => LobbyScreen(lobby)));
   }
 
   @override
@@ -41,12 +47,12 @@ class _LobbiesState extends State<Lobbies> {
               ListView(
                 children: BaseService.lobbies.value.values.map((lobby) =>
                   GestureDetector(
-                    onTap: () => print(lobby.id),
+                    onTap: () => joinLobby(lobby),
                     child: Card(
                       child: Column(
                         children: <Widget>[
                           Identity(lobby.name, lobby.icon.toString(), 45),
-                          ...lobby.participants.values.map((player) => Padding(
+                          ...lobby.players.values.map((player) => Padding(
                             padding: const EdgeInsets.only(left: 40),
                             child: Identity(player.name, player.icon.toString(), 30),
                           ))

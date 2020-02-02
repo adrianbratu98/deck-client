@@ -15,7 +15,7 @@ class DeckApp extends StatelessWidget {
       theme: ThemeData(
          primarySwatch: Colors.blue,
       ),
-      home: Intro(),
+      home: IntroScreen(),
     );
   }
 }

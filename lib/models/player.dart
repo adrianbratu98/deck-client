@@ -14,6 +14,7 @@ class Player {
   @JsonKey(name: "icon")
   int iconCode;
   PlayerIcon get icon => PlayerIcon.values[iconCode];
+  set icon(PlayerIcon icon2) => iconCode = icon2.index;
 
   static PlayerIcon asIcon(int iconCode) => PlayerIcon.values[iconCode];
 

@@ -1,3 +1,4 @@
+import 'package:deck/models/player.dart';
 import 'package:deck/services/base.service.dart';
 import 'package:deck/widgets/loading.dart';
 import 'package:flutter/cupertino.dart';
@@ -5,11 +6,11 @@ import 'package:flutter/material.dart';
 
 import 'lobbies.dart';
 
-class Home extends StatefulWidget {
+class HomeScreen extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeState extends State<HomeScreen> {
 
   TextEditingController controller = TextEditingController();
   @override
@@ -22,8 +23,10 @@ class _HomeState extends State<Home> {
 
   login(BuildContext context) async{
     if(controller.text.isNotEmpty){
+      BaseService.player.name = controller.text;
+      BaseService.player.icon = PlayerIcon.Cat;
       await BaseService.getUniqueId();
-      Navigator.push(context,MaterialPageRoute(builder: (context) => Lobbies()));
+      Navigator.push(context,MaterialPageRoute(builder: (context) => LobbiesScreen()));
     }
     else {
       Scaffold.of(context).showSnackBar(SnackBar(content: Text('Username can not be empty')));

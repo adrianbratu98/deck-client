@@ -12,7 +12,7 @@ Lobby _$LobbyFromJson(Map<String, dynamic> json) {
     ..name = json['name'] as String
     ..iconCode = json['icon'] as int
     ..leaderId = json['leaderId'] as String
-    ..participants = (json['participants'] as Map<String, dynamic>)?.map(
+    ..players = (json['participants'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(
           k, e == null ? null : Player.fromJson(e as Map<String, dynamic>)),
     );
@@ -23,5 +23,5 @@ Map<String, dynamic> _$LobbyToJson(Lobby instance) => <String, dynamic>{
       'name': instance.name,
       'icon': instance.iconCode,
       'leaderId': instance.leaderId,
-      'participants': instance.participants
+      'participants': instance.players
     };
